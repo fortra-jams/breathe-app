@@ -1,5 +1,7 @@
 {
   "name": "breathe",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
