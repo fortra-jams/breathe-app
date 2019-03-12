@@ -1,0 +1,73 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Breathe</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content padding>
+
+
+
+ 
+      
+    <!-- Segment with secondary color -->
+    <ion-segment (ionChange)="segmentChanged($event)" color="primary">
+    <ion-segment-button value="standard">
+        <ion-label>Done 13Hrs.</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="hybrid">
+        <ion-label text-wrap>Doing 3Hrs</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sat">
+        <ion-label text-wrap>ToDo 13Hrs</ion-label>
+    </ion-segment-button>
+    </ion-segment>      
+              
+              
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Current Task</ion-card-title>
+            <ion-card-subtitle>Building mobile app</ion-card-subtitle>
+          
+        </ion-card-header>
+      
+        <ion-card-content>
+           Build a mobile app for software engiineering using scrum methodology. The app is called a Breathe app
+           and it allows user to cool down a bit.
+        </ion-card-content>
+      </ion-card>
+      
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Upcoming Task</ion-card-title>
+            <ion-card-subtitle>Pickup printing materials</ion-card-subtitle>
+                  
+        </ion-card-header>
+        <ion-item>
+          <ion-icon name="pin" slot="start"></ion-icon>
+          <ion-label>Penang</ion-label>
+          <ion-button fill="outline" slot="end">View</ion-button>
+        </ion-item>
+      
+        <ion-card-content>
+          Pickup the report printed at nearby shop.
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+            <ion-card-header>
+                <ion-card-title>Reminder</ion-card-title>
+                <ion-card-subtitle>Take a time to breathe</ion-card-subtitle>
+              
+            </ion-card-header>
+          
+            <ion-card-content>
+               Whoa.. slow down there buddy. you are doing too much work. 
+               A hardworking person still needs a little time for himself, so take a break.
+            </ion-card-content>
+          </ion-card>
+      
+      
+  
+  </ion-content>
+  
