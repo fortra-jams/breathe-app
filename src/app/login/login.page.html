@@ -9,7 +9,8 @@
     </ion-item>
   </ion-list>
   
-  <ion-button full>Log in</ion-button>
-  <ion-button full color="light" (click)="goRegister()">Register</ion-button>
+  <ion-button full (click)="goLogin()">Log in</ion-button>
+  
+  <ion-button full color="light" routerLink="/register" routerDirection="forward">Register</ion-button>
   </ion-content>
   
