@@ -1,5 +1,15 @@
-login-page{
-    ion-title * {
-    margin-top: 50%;
-        }
-    }
+.error-message
+{
+ color: var(--ion-color-danger);
+}
+
+.go-to-register
+{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.submit-btn
+{
+  margin-top: 40px;
+}
