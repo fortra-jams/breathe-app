@@ -62,11 +62,7 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-<<<<<<< HEAD
-      "cordova-plugin-firebase": {}
-=======
       "cordova-plugin-telerik-imagepicker": {}
->>>>>>> dfe7a925b7c0b6cb4b63d2343648fd4c09cb0daa
     }
   }
 }
