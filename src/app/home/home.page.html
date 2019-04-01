@@ -1,8 +1,13 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Breathe</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Breathe</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+  
+    </ion-buttons>
+  </ion-toolbar>
   </ion-header>
+
 
   <ion-menu side="end" menuId="end" type="overlay">
     <ion-header>
@@ -45,12 +50,6 @@
         <ion-label text-wrap>ToDo 13Hrs</ion-label>
     </ion-segment-button>
     </ion-segment>      
-              
-    <ion-button full routerLink="/addtask" routerDirection="forward">Add task</ion-button>
-
-    <ion-button full (click)="openFirst()">openFirst</ion-button>
-    <ion-button full (click)="openCustom()">openCustom</ion-button>
-    <ion-button full (click)="openEnd()">openEnd</ion-button>
               
     <ion-card>
         <ion-card-header>
