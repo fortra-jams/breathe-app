@@ -4,7 +4,12 @@
   </ion-toolbar>
 </ion-header>
 
+<div class="img-container">
+    <img src="../../assets/breathe-logo-alternative-hi-res.png" width=50%>
+</div>
+
 <ion-content padding class="form-content">
+   
   <form class="form" [formGroup]="validations_form" (ngSubmit)="tryLogin(validations_form.value)">
     <ion-item>
       <ion-label position="floating" color="primary">Email</ion-label>
