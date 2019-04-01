@@ -3,6 +3,29 @@
       <ion-title>Breathe</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-menu side="end" menuId="end" type="overlay">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>End Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>Dashboard</ion-item>
+        <ion-item>Tasks</ion-item>
+        <ion-item>Profile</ion-item>
+        <ion-item>Change Password</ion-item>
+      </ion-list>
+    </ion-content>
+    <ion-footer (click)="logout()">
+      <ion-toolbar color="secondary">
+        <ion-title>Log out</ion-title>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
+  
   
   <ion-content padding>
 
@@ -23,6 +46,11 @@
     </ion-segment-button>
     </ion-segment>      
               
+    <ion-button full routerLink="/addtask" routerDirection="forward">Add task</ion-button>
+
+    <ion-button full (click)="openFirst()">openFirst</ion-button>
+    <ion-button full (click)="openCustom()">openCustom</ion-button>
+    <ion-button full (click)="openEnd()">openEnd</ion-button>
               
     <ion-card>
         <ion-card-header>
