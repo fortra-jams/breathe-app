@@ -51,6 +51,14 @@
     <ion-button full (click)="openFirst()">openFirst</ion-button>
     <ion-button full (click)="openCustom()">openCustom</ion-button>
     <ion-button full (click)="openEnd()">openEnd</ion-button>
+
+     <!-- fab placed to the (vertical) center and end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/addtask" routerDirection="forward">
+
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
               
     <ion-card>
         <ion-card-header>
