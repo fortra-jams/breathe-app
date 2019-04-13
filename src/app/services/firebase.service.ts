@@ -74,7 +74,10 @@ export class FirebaseService {
       let currentUser = firebase.auth().currentUser;
       this.afs.collection('people').doc(currentUser.uid).collection('tasks').add({
         title: value.title,
+        taskType: value.taskType,
         description: value.description,
+        startTime: value.startTime,
+        endTime: value.endTime,
         image: value.image
       })
       .then(

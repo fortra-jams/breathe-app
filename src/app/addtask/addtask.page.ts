@@ -34,7 +34,10 @@ export class AddtaskPage implements OnInit {
     this.image = "../../assets/default_image.png";
     this.validations_form = this.formBuilder.group({
       title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      description: new FormControl('', Validators.required),
+      taskType: new FormControl('', Validators.required),
+      startTime: new FormControl('', Validators.required),
+      endTime: new FormControl('', Validators.required)
     });
   }
 
@@ -42,7 +45,10 @@ export class AddtaskPage implements OnInit {
   onSubmit(value){
     let data = {
       title: value.title,
+      taskType: value.taskType,
       description: value.description,
+      startTime: value.startTime,
+      endTime: value.endTime,
       image: this.image
     }
 
