@@ -82,7 +82,14 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+<<<<<<< HEAD
+    <plugin name="cordova-plugin-telerik-imagepicker" spec="2.3.2" />
+=======
     <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.3.2" />
     <plugin name="cordova-plugin-image-picker" spec="^1.1.3" />
+<<<<<<< HEAD
     <engine name="android" spec="8.0.0" />
+=======
+>>>>>>> 5601eaf86780582885ee7e27dc4bbe8637966d90
+>>>>>>> 63e312128a0d470c2c5c26c81a92e3f4aaa0a0f2
 </widget>
