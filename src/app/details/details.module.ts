@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { AddtaskPage } from './addtask.page';
+import { DetailsPage } from './details.page';
+import { DetailsResolver } from './details.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddtaskPage
+    component: DetailsPage,
+    resolve: {
+      data: DetailsResolver
+    }
   }
 ];
 
@@ -20,7 +24,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AddtaskPage]
+  declarations: [DetailsPage],
+  providers:[DetailsResolver]
 })
-export class AddtaskPageModule {}
-
+export class DetailsPageModule {}

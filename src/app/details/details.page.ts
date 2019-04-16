@@ -1,46 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { LoadingController, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-addtask',
-  templateUrl: './addtask.page.html',
-  styleUrls: ['./addtask.page.scss'],
+  selector: 'app-details',
+  templateUrl: './details.page.html',
+  styleUrls: ['./details.page.scss'],
 })
-export class AddtaskPage implements OnInit {
+export class DetailsPage implements OnInit {
+
   validations_form: FormGroup;
   image: any;
+  item: any;
+  load: boolean = false;
 
-
-  constructor(  private imagePicker: ImagePicker,
+  constructor(
+    private imagePicker: ImagePicker,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public router: Router,
     private formBuilder: FormBuilder,
     private firebaseService: FirebaseService,
-    private webview: WebView
-   
+    private webview: WebView,
+    private alertCtrl: AlertController,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.resetFields();
-  }
-  
-  resetFields(){
-    this.image = "../../assets/default_image.png";
-    this.validations_form = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      taskType: new FormControl('', Validators.required),
-      startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required)
-    });
+    this.getData();
   }
 
+  getData(){
+    this.route.data.subscribe(routeData => {
+     let data = routeData['data'];
+     if (data) {
+       this.item = data;
+       this.image = this.item.image;
+       console.log("there is data ######")
+     }
+    })
+    this.validations_form = this.formBuilder.group({
+      title: new FormControl(this.item.title, Validators.required),
+      description: new FormControl(this.item.description, Validators.required),
+      taskType: new FormControl(this.item.taskType, Validators.required),
+      startTime: new FormControl(this.item.startTime, Validators.required),
+      endTime: new FormControl(this.item.endTime, Validators.required)
+    });
+  }
 
   onSubmit(value){
     let data = {
@@ -51,8 +61,7 @@ export class AddtaskPage implements OnInit {
       endTime: value.endTime,
       image: this.image
     }
-
-    this.firebaseService.addTask(data)
+    this.firebaseService.updateTask(this.item.id,data)
     .then(
       res => {
         this.router.navigate(["/home"]);
@@ -60,6 +69,33 @@ export class AddtaskPage implements OnInit {
     )
   }
 
+  async delete() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm',
+      message: 'Do you want to delete ' + this.item.title + '?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.firebaseService.deleteTask(this.item.id)
+            .then(
+              res => {
+                this.router.navigate(["/home"]);
+              },
+              err => console.log(err)
+            )
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 
   openImagePicker(){
     this.imagePicker.hasReadPermission()
@@ -84,7 +120,6 @@ export class AddtaskPage implements OnInit {
     });
   }
 
-
   async uploadImageToFirebase(image){
     const loading = await this.loadingCtrl.create({
       message: 'Please wait...'
@@ -94,6 +129,7 @@ export class AddtaskPage implements OnInit {
       duration: 3000
     });
     this.presentLoading(loading);
+    // let image_to_convert = 'http://localhost:8080/_file_' + image;
     let image_src = this.webview.convertFileSrc(image);
     let randomId = Math.random().toString(36).substr(2, 5);
 
