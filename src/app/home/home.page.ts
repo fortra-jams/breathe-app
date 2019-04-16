@@ -38,7 +38,7 @@ export class HomePage {
     })
   }
 // Doughnut
-public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+public doughnutChartLabels:string[] = ['Exercise', 'Task', 'Stuff'];
 public doughnutChartData:number[] = [350, 450, 100];
 public doughnutChartType:string = 'doughnut';
 
