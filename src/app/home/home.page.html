@@ -43,9 +43,17 @@
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
     </div>
-
- 
-      
+    <div style="display: block">
+      <canvas baseChart
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+    </div>
+    
     <!-- Segment with secondary color -->
     <ion-segment (ionChange)="segmentChanged($event)" color="primary">
     <ion-segment-button value="standard">
