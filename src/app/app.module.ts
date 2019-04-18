@@ -21,6 +21,8 @@ import { environment } from '../environments/environment';
 import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -32,12 +34,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AngularFireAuthModule, // imports firebase/auth
     AngularFireStorageModule, // imports firebase/storage
   ],
+
   providers: [
     StatusBar,
     SplashScreen,
     AuthService,
     ImagePicker,
     WebView,
+    BrowserModule,
     { provide: FirestoreSettingsToken, useValue: {} },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
