@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController,LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import {Router, ActivatedRoute} from '@angular/router';
+import { FirebaseService } from '../services/firebase.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,22 +12,29 @@ import {Router, ActivatedRoute} from '@angular/router';
 })
 export class HomePage implements OnInit{
 
+  
   items: Array<any>;
+  
 
   userEmail: string;
 
   constructor(private menu: MenuController,
     public loadingCtrl: LoadingController,
-
+    private firebaseService: FirebaseService,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(){
+    this.getData();
     if(this.authService.userDetails){
       this.userEmail = this.authService.userDetails().email;
       console.log(this.userEmail);
     }
+    for (let item of this.items){
+        console.log(item);
+    }
+    console.log(this.items);
   }
 
   async getData(){
@@ -50,6 +59,7 @@ export class HomePage implements OnInit{
     this.menu.open('end');
   }
 
+  
   logout(){
     this.authService.doLogout()
     .then(res => {
@@ -60,7 +70,7 @@ export class HomePage implements OnInit{
     })
   }
 // Doughnut
-public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+public doughnutChartLabels:string[] = ['Not done', 'Doing', 'Finished'];
 public doughnutChartData:number[] = [350, 450, 100];
 public doughnutChartType:string = 'doughnut';
 
