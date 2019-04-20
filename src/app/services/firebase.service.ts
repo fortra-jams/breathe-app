@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -15,6 +15,11 @@ export class FirebaseService {
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth
   ){}
+
+  getTaskTotal(): AngularFirestoreDocument<any> {
+    let currentUser = firebase.auth().currentUser;
+    return this.afs.collection('people').doc(currentUser.uid);
+  }
 
   getTasks(){
     return new Promise<any>((resolve, reject) => {

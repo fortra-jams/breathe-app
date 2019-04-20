@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../services/firebase.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,16 +13,20 @@ import { Router } from '@angular/router';
 export class HomePage {
 
   userEmail: string;
+  public totalTask: Observable<any>;
 
   constructor(private menu: MenuController,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private firebaseService: FirebaseService) { }
 
   ngOnInit(){
     if(this.authService.userDetails){
       this.userEmail = this.authService.userDetails().email;
       console.log(this.userEmail);
     }
+    this.totalTask = this.firebaseService.getTaskTotal().valueChanges();
+    console.log(this.totalTask);
   }
 
   openEnd() {
@@ -29,6 +35,7 @@ export class HomePage {
   }
 
   logout(){
+    this.menu.close('end');
     this.authService.doLogout()
     .then(res => {
       console.log(res);
@@ -38,8 +45,8 @@ export class HomePage {
     })
   }
 // Doughnut
-public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
-public doughnutChartData:number[] = [350, 450, 100];
+public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Total task'];
+public doughnutChartData:number[] = [5, 10,15 ];
 public doughnutChartType:string = 'doughnut';
 
 // events

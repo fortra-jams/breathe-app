@@ -40,7 +40,6 @@ export class DetailsPage implements OnInit {
      if (data) {
        this.item = data;
        this.image = this.item.image;
-       console.log("there is data ######")
      }
     })
     this.validations_form = this.formBuilder.group({
