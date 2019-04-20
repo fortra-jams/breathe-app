@@ -16,8 +16,10 @@ import { HomePage } from './home.page';
         path: '',
         component: HomePage
       }
-    ])
+    ]) ,
+    ChartsModule
   ],
+  
   declarations: [HomePage]
 })
 export class HomePageModule {}

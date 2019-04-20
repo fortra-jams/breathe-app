@@ -19,6 +19,7 @@ export class AlltaskPage implements OnInit {
     if (this.route && this.route.data) {
       this.getData();
     }
+    
   }
 
   async getData(){
