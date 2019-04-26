@@ -34,6 +34,7 @@ export class HomePage {
       console.log(JSON.stringify(val));
     });
     console.log(this.totalTask);
+    
   }
 
   openEnd() {
@@ -52,17 +53,17 @@ export class HomePage {
       console.log(error);
     })
   }
-// Doughnut
-public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Total task'];
-public doughnutChartData:number[] = [5, 10, 6 ];
-public doughnutChartType:string = 'doughnut';
+  // Doughnut
+  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Total task'];
+  public doughnutChartData:number[] = [5, 10, 6 ];
+  public doughnutChartType:string = 'doughnut';  
 
-// events
-public chartClicked(e:any):void {
-  console.log(e);
-}
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
 
-public chartHovered(e:any):void {
-  console.log(e);
-}
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
 }
