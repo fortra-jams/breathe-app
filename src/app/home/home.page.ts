@@ -14,6 +14,7 @@ export class HomePage {
 
   userEmail: string;
   public totalTask: Observable<any>;
+  ttlTask: number;
 
   constructor(private menu: MenuController,
     private authService: AuthService,
@@ -26,6 +27,12 @@ export class HomePage {
       console.log(this.userEmail);
     }
     this.totalTask = this.firebaseService.getTaskTotal().valueChanges();
+    this.totalTask.subscribe(val =>{
+      this.ttlTask = val['totalTask'];
+      console.log(val['totalTask']);
+      console.log(this.ttlTask);
+      console.log(JSON.stringify(val));
+    });
     console.log(this.totalTask);
   }
 
@@ -38,6 +45,7 @@ export class HomePage {
     this.menu.close('end');
     this.authService.doLogout()
     .then(res => {
+      this.firebaseService.unsubscribeOnLogOut();
       console.log(res);
     })
     .catch(error => {
@@ -46,7 +54,7 @@ export class HomePage {
   }
 // Doughnut
 public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Total task'];
-public doughnutChartData:number[] = [5, 10,15 ];
+public doughnutChartData:number[] = [5, 10, 6 ];
 public doughnutChartType:string = 'doughnut';
 
 // events
