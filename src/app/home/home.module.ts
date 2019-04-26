@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { HomePage } from './home.page';
+import { HomeResolver} from './home.resolver';
 
 @NgModule({
   imports: [
@@ -14,12 +15,19 @@ import { HomePage } from './home.page';
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
+        component: HomePage,
+        resolve: {
+          data: HomeResolver
+        }
       }
     ]) ,
     ChartsModule
   ],
   
-  declarations: [HomePage]
+  declarations: [HomePage],
+  providers: [
+    HomeResolver
+  ]
+
 })
 export class HomePageModule {}
