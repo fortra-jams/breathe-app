@@ -2,9 +2,10 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
+var FieldValue = require("firebase-admin").firestore.FieldValue;
 admin.initializeApp();
 
-    
+    //when adding or updating task
 exports.modifyTask = functions.firestore
     .document('people/{userID}/tasks/{taskID}')
     .onWrite((change, context) => {
@@ -17,17 +18,66 @@ exports.modifyTask = functions.firestore
         let count = 0;
 
         //console out the time
-        console.log(firebase.firestore.Timestamp.fromDate(new Date()))
+        console.log(context.timestamp());
+
+        // get the week
+        var dateWeek = context.timestamp();
+
+        //check if Daily taskTotal for today exist
+
+        //if not add one
+
         //get task status before
-        var taskBefore = change.before.data()['taskStatus'];
+        var tB = change.before.data();
+        var taskBefore = tB['taskStatus'];
 
         //get task status after
-        var taskAfter = change.after.data()['taskStatus'];
-
+        var tA = change.after.data();
+        var taskAfter = tA['taskStatus'];
         //compare task status
         if (taskBefore !== taskAfter){
-            console.log(taskAfter);
-            console.log(taskBefore);
+            if(taskAfter === "notDone"){
+                var dailyTaskRef = db.collection(`people/${userID}/DailyTaskTotal`).doc(dateWeek);
+                db.runTransaction((trans)=>{
+                    return trans.get(dailyTaskRef).then((dtDoc) => {
+                        // eslint-disable-next-line promise/always-return
+                        if (!dtDoc.exists) {
+                            console.log("Document does not exist!");
+                        }
+                
+                        var newNotDone = dtDoc.data().Todo + 1;
+                        var newDone = dtDoc.data().Done - 1;
+                        transaction.update(sfDocRef, { Todo: newNotDone, Done: newDone });
+                    });
+                // eslint-disable-next-line promise/always-return
+                }).then(()=> {
+                    console.log("Transaction successfully committed!");
+                }).catch((error)=> {
+                    console.log("Transaction failed: ", error);
+                });
+
+            }else{
+                var dailyTaskRef2 = db.collection(`people${userID}DailyTaskTotal`).doc(dateWeek);
+                db.runTransaction((trans)=>{
+                    return trans.get(dailyTaskRef2).then((dtDoc) => {
+                        // eslint-disable-next-line promise/always-return
+                        if (!dtDoc.exists) {
+                            console.log("Document does not exist!");
+                        }
+                
+                        var newNotDone = dtDoc.data().Todo - 1;
+                        var newDone = dtDoc.data().Done + 1;
+                        transaction.update(sfDocRef, { Todo: newNotDone, Done: newDone });
+                    });
+                // eslint-disable-next-line promise/always-return
+                }).then(()=> {
+                    console.log("Transaction successfully committed!");
+                }).catch((error)=> {
+                    console.log("Transaction failed: ", error);
+                });
+            }
+            console.log(taskAfter['taskStatus']);
+            console.log(taskBefore['taskStatus']);
         }
         
         //count the keys of document on collection tasks
