@@ -16,8 +16,20 @@ exports.modifyTask = functions.firestore
         var db = admin.firestore();//assign firestore
         let count = 0;
 
+        //console out the time
         console.log(firebase.firestore.Timestamp.fromDate(new Date()))
+        //get task status before
+        var taskBefore = change.before.data()['taskStatus'];
 
+        //get task status after
+        var taskAfter = change.after.data()['taskStatus'];
+
+        //compare task status
+        if (taskBefore !== taskAfter){
+            console.log(taskAfter);
+            console.log(taskBefore);
+        }
+        
         //count the keys of document on collection tasks
         db.collection('people').doc(userID).collection('tasks').stream()
             .on('data', (snap) => {
