@@ -51,19 +51,19 @@ export class DetailsPage implements OnInit {
   }
 
   onSubmit(value){
+    console.log(value);
     let data = {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
-      image: this.image,
-      statusType: this.item.statusType,
+      taskStatus: this.item.taskStatus,
       taskDifficulty : value.taskDifficulty,
       date: this.item.date
     }
     this.firebaseService.updateTask(this.item.id,data)
     .then(
       res => {
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/alltask"]);
       }
     )
   }
@@ -85,7 +85,7 @@ export class DetailsPage implements OnInit {
             this.firebaseService.deleteTask(this.item.id)
             .then(
               res => {
-                this.router.navigate(["/home"]);
+                this.router.navigate(["/alltask"]);
               },
               err => console.log(err)
             )

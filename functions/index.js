@@ -9,7 +9,7 @@ function formatDate(date) {
     var d = new Date(date),
         month = String(d.getMonth() + 1),
         day = String(d.getDate()),
-        year = d.getFullYear();
+        year = (d.getFullYear());
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
@@ -19,41 +19,213 @@ function formatDate(date) {
 
 exports.debugFunc = functions.firestore
     .document('people/{userID}/tasks/{taskID}')
+    .onCreate((snap, context) => {
+        var dateWeek = snap.data()['date'];//get date from task
+        console.log(formatDate(dateWeek.toDate()));
+
+        var userID = context.params.userID;//get user id
+        console.log(userID);
+        var dw = formatDate(dateWeek.toDate());
+        console.log(dw);
+
+         //compare with daily task burden
+
+         var a2 = snap.data()['taskDifficulty'];
+         //var b2 = snap.before.data()['taskDifficulty'];
+
+         //when adding
+         //check whether have similar date in daily burden total
+         var db = admin.firestore();//assign firestore
+
+        var dailyTaskRef = db.collection(`people/${userID}/DailyBurdenTotal`).doc(dw);
+        console.log(dailyTaskRef);
+        console.log(dailyTaskRef.exists);
+        
+        dailyTaskRef.get().then((doc)=>{
+            console.log(doc.exists);
+            if (!doc.exists){
+                console.log("dailytaskRefNot");
+    
+                //var a = snap.after.data()['taskDifficulty'];
+                if(a2 === "Easy"){
+                    console.log("EASY WORKING SHUD NOT");
+                    dailyTaskRef.set({
+                        
+                        Easy:1,
+                        Medium:0,
+                        Hard:0
+                    });
+                }else if(a2 === "Medium"){
+                    console.log("MED WORKING SHUD NOT");
+    
+                    dailyTaskRef.set({
+                        Easy:0,
+                        Medium:1,
+                        Hard:0
+                    });
+                }else if(a2 === "Hard"){
+                    console.log("HARD WORKING SHUD NOT");
+                    dailyTaskRef.set({
+                        Easy:0,
+                        Medium:0,
+                        Hard:1
+                    });
+                }
+                
+            }
+    });
+
+});
+
+exports.debugFunc2 = functions.firestore
+    .document('people/{userID}/tasks/{taskID}')
     .onWrite((change, context) => {
         var dateWeek = change.after.data()['date'];//get date from task
         console.log(formatDate(dateWeek.toDate()));
 
         var userID = context.params.userID;//get user id
-        var db = admin.firestore();//assign firestore
+        console.log(userID);
+        var dw = formatDate(dateWeek.toDate());
+        console.log(dw);
+
          //compare with daily task burden
+
+         var a2 = change.after.data()['taskDifficulty'];
+         var b2 = change.before.data()['taskDifficulty'];
+
+         var db = admin.firestore();//assign firestore
 
          //when adding
          //check whether have similar date in daily burden total
-        var dailyTaskRef = db.collection(`people/${userID}/DailyBurdenTotal`).doc(dateWeek);
+        var dailyTaskRef = db.collection(`people/${userID}/DailyBurdenTotal`).doc(dw);
         console.log(dailyTaskRef);
-        if (!dailyTaskRef.exists){
-            var d = change.after.data()['taskDifficulty'];
-            if(d === "Easy"){
-                dailyTaskRef.set({
-                    Easy:1,
-                    Medium:0,
-                    Hard:0
-                });
-            }else if(d === "Medium"){
-                dailyTaskRef.set({
-                    Easy:0,
-                    Medium:1,
-                    Hard:0
-                });
-            }else if(d === "Hard"){
-                dailyTaskRef.set({
-                    Easy:0,
-                    Medium:0,
-                    Hard:1
-                });
+        console.log(dailyTaskRef.exists);
+
+        dailyTaskRef.get().then((doc)=>{
+            console.log(doc.exists);
+            if (doc.exists){
+                
+                //var a = change.after.data()['taskDifficulty'];
+                //var b = change.before.data()['taskDifficulty'];
+                if(a2 != b2 ){
+                    console.log("Before After Not Same");
+                    if(a2 === "Easy") {
+                        console.log("After Easy");
+    
+                    db.runTransaction((trans)=>{
+                        return trans.get(doc).then((dtDoc) => {
+                            if(!dtDoc.exists){
+                                console.log("Document exist");
+                            }
+    
+                            var newEasy = dtDoc.data().Easy + 1;
+                            var newMedium = dtDoc.data().Medium;  
+                            var newHard = dtDoc.data().Hard;
+    
+    
+                            if(b2 === "Medium"){
+                                console.log("Before medium 1");
+                                newMedium = dtDoc.data().Medium - 1;
+                                console.log("Before medium 2");
+    
+                            }else if( b2 === "Hard"){
+                                newHard = dtDoc.data().Hard - 1;
+    
+                            }
+    
+                            trans.update(doc, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                        });
+    
+    
+                        
+    
+                    });
+                
+                    }else if(a2 === "Medium"){
+                        console.log("After Medium");
+
+                        db.runTransaction((trans)=>{
+                            return trans.get(dailyTaskRef).then((dtDoc) => {
+                                if(!dtDoc.exists){
+                                    console.log("Document exist");
+                                }
+        
+                                var newEasy = dtDoc.data().Easy;
+                                var newMedium = dtDoc.data().Medium + 1;  
+                                var newHard = dtDoc.data().Hard;
+        
+        
+                                if(b2 === "Easy"){
+                                    newEasy = dtDoc.data().Easy - 1;
+                                }else if( b2 === "Hard"){
+                                    newHard = dtDoc.data().Hard - 1;
+        
+                                }
+        
+                                trans.update(dailyTaskRef, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                            });
+        
+        
+                            
+        
+                        });
+                    
+                    }else if(a2 === "Hard"){
+                        console.log("After Hard");
+
+                        db.runTransaction((trans)=>{
+                            return trans.get(dailyTaskRef).then((dtDoc) => {
+                                if(!dtDoc.exists){
+                                    console.log("Document exist");
+                                }
+        
+                                var newEasy = dtDoc.data().Easy;
+                                var newMedium = dtDoc.data().Medium;  
+                                var newHard = dtDoc.data().Hard + 1;
+        
+        
+                                if(b2 === "Easy"){
+                                    newEasy = dtDoc.data().Easy - 1;
+                                }else if( b2 === "Medium"){
+                                    newMedium = dtDoc.data().Medium - 1;
+        
+                                }
+        
+                                trans.update(dailyTaskRef, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                            });
+        
+        
+                            
+        
+                        });
+                    
+                    }
+                }else{
+                    if(a2 === "Easy"){
+                    var newEasy = dtDoc.data().Easy + 1;
+                    var newMedium = dtDoc.data().Medium;  
+                    var newHard = dtDoc.data().Hard;
+                    trans.update(dailyTaskRef, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                        }else if(a2 ==="Medium"){
+                            var newEasy = dtDoc.data().Easy ;
+                            var newMedium = dtDoc.data().Medium + 1;  
+                            var newHard = dtDoc.data().Hard;
+                            trans.update(dailyTaskRef, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                        }else if(a2 === "Hard"){
+                            var newEasy = dtDoc.data().Easy ;
+                            var newMedium = dtDoc.data().Medium;  
+                            var newHard = dtDoc.data().Hard + 1;
+                            trans.update(dailyTaskRef, {Easy: newEasy, Medium: newMedium, Hard: newHard})
+                        }
+    
+                
+                    }
+    
             }
-            
-        }
+
+
+        });
+        
          //if dont have add one
 
          //else update

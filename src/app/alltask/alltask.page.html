@@ -2,6 +2,10 @@
   <ion-toolbar>
     <ion-back-button></ion-back-button>
     <ion-title>all task</ion-title>
+    <ion-buttons slot="end">
+        <ion-menu-button autoHide="false"></ion-menu-button>
+    
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -55,14 +59,52 @@
 
         
       </ion-reorder-group>-->
+
+      <ion-menu side="end" menuId="end" type="overlay">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>End Menu</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-list>
+              <ion-item>Dashboard</ion-item>
+              <ion-item>Tasks</ion-item>
+              <ion-item>Profile</ion-item>
+              <ion-item routerLink="/alltask" routerDirection="forward">All task</ion-item>
+              <ion-item>Change Password</ion-item>
+            </ion-list>
+          </ion-content>
+          <ion-footer (click)="logout()">
+            <ion-toolbar color="secondary">
+              <ion-title>Log out</ion-title>
+            </ion-toolbar>
+          </ion-footer>
+        </ion-menu>
+        <ion-router-outlet main></ion-router-outlet>
+
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button routerLink="/addtask" routerDirection="forward">
+      
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
       <ion-content *ngIf="items" class="list-mini-content" padding>
         <ion-list>
-      
+          <ion-list-header color = "warning" >
+                To do
+          </ion-list-header>
+
+
+        
         <ion-item-sliding *ngFor="let item of items" >
-      
-          <ion-item color="warning" [routerLink]="['/details', item.payload.doc.id]" >
+            <div *ngIf="item.payload.doc.data().taskStatus == 'notDone'">
+
+          <ion-item [routerLink]="['/details', item.payload.doc.id]" >
             <ion-label >
-              {{item.payload.doc.data().title}}
+              {{item.payload.doc.data().title}} ({{item.payload.doc.data().taskDifficulty}})
             </ion-label>
             <ion-button fill="clear" slot="end">Details</ion-button>
 
@@ -74,7 +116,34 @@
               <ion-button (click)="notDone(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="light" ><ion-icon src="assets/delete.svg"></ion-icon>
               </ion-button>
           </ion-item-options>
+          </div>
         </ion-item-sliding>
+
+        <ion-list-header color = "success" >
+            Done
+      </ion-list-header>
       
+          <ion-item-sliding *ngFor="let item of items" >
+              <div *ngIf="item.payload.doc.data().taskStatus == 'Done'">
+  
+            <ion-item  [routerLink]="['/details', item.payload.doc.id]" >
+              <ion-label >
+                {{item.payload.doc.data().title}} ({{item.payload.doc.data().taskDifficulty}})
+
+              </ion-label>
+            
+              <ion-button fill="clear" slot="end">Details</ion-button>
+  
+            </ion-item>
+        
+            <ion-item-options >
+                <ion-button (click)="done(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="light" ><ion-icon src="assets/check_big.svg"></ion-icon>
+                </ion-button>
+                <ion-button (click)="notDone(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="light" ><ion-icon src="assets/delete.svg"></ion-icon>
+                </ion-button>
+            </ion-item-options>
+            </div>
+          </ion-item-sliding>
+
         </ion-list>
       </ion-content>

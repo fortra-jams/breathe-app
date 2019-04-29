@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
+import { MenuController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+
+
 //import { reorderArray } from 'ionic-angular';
 
 
@@ -15,8 +19,10 @@ export class AlltaskPage implements OnInit {
   items = [];
 
   constructor(public loadingCtrl: LoadingController,
+    private menu: MenuController,
     private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private firebaseService: FirebaseService) {
         for(let x = 0; x<5; x++){
           this.items.push(x);
@@ -29,6 +35,25 @@ export class AlltaskPage implements OnInit {
       this.getData();
     }
     
+  }
+
+  openEnd() {
+    this.menu.enable(true, 'end');
+    this.menu.open('end');
+  }
+
+  
+  
+  logout(){
+    this.menu.close('end');
+    this.authService.doLogout()
+    .then(res => {
+      this.firebaseService.unsubscribeOnLogOut();
+      console.log(res);
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 
  /* reorderItems(ev){
@@ -56,7 +81,6 @@ export class AlltaskPage implements OnInit {
       routeData['data'].subscribe(data => {
         loading.dismiss();
         this.items = data;
-        this.itemsD = data["taskDifficulty"];
       })
     })
   }

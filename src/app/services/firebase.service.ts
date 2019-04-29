@@ -119,7 +119,6 @@ export class FirebaseService {
         title: value.title,
         taskType: value.taskType,
         description: value.description,
-        image: value.image,
         taskStatus: "notDone",
         taskDifficulty : value.taskDifficulty,
         date: value.date

@@ -8,20 +8,7 @@
   
   <ion-content ion-content padding center text-center>
     
-  <div>
-      <ion-row no-padding>
-        <ion-col size="6" offset="3"> 
-          <img [src]="image" alt="this is the image"/>
-        </ion-col>
-      </ion-row>
-      <ion-row no-padding>
-        <ion-col size="6" offset="3">
-          <ion-button fill="outline" expand="block" size="small" (click)="openImagePicker()">Change Picture</ion-button>
-        </ion-col>
-      </ion-row>
-    </div>
-    
-  
+
     <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
         <ion-item>
   

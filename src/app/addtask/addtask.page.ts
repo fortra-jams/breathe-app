@@ -48,8 +48,7 @@ export class AddtaskPage implements OnInit {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
-      image: this.image,
-      statusType: "notDone",
+      taskStatus: "notDone",
       taskDifficulty : value.taskDifficulty,
       date: date
     }
@@ -57,7 +56,7 @@ export class AddtaskPage implements OnInit {
     this.firebaseService.addTask(data)
     .then(
       res => {
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/alltask"]);
       }
     )
   }
