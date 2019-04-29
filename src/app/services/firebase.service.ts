@@ -33,7 +33,23 @@ export class FirebaseService {
       })
     })
   }
-
+  updateTaskStatus(taskId,status){
+    this.afAuth.user.subscribe(currentUser => {
+      
+      var taskRef = this.afs.collection('people').doc(currentUser.uid).collection('tasks').doc(taskId);
+      
+      return taskRef.update({
+          taskStatus: status
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    })
+  }
   getTask(taskId){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {

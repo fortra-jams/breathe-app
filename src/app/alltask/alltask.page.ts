@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FirebaseService } from '../services/firebase.service';
 //import { reorderArray } from 'ionic-angular';
 
 
@@ -15,7 +16,8 @@ export class AlltaskPage implements OnInit {
 
   constructor(public loadingCtrl: LoadingController,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private firebaseService: FirebaseService) {
         for(let x = 0; x<5; x++){
           this.items.push(x);
         }
@@ -29,11 +31,20 @@ export class AlltaskPage implements OnInit {
     
   }
 
-  reorderItems(ev){
+ /* reorderItems(ev){
     const itemMove = this.items.splice(ev.detail.from, 1)[0];
     this.items.splice(ev.detail.to, 0, itemMove);
     ev.detail.complete();
-    }
+    }*/
+
+  notDone(taskKey,status){
+    this.firebaseService.updateTaskStatus(taskKey,'notDone');
+  }
+
+  done(taskKey,status){
+    this.firebaseService.updateTaskStatus(taskKey,'Done');
+
+  }
 
   async getData(){
     const loading = await this.loadingCtrl.create({
