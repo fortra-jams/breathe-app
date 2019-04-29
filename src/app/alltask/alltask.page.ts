@@ -56,6 +56,7 @@ export class AlltaskPage implements OnInit {
       routeData['data'].subscribe(data => {
         loading.dismiss();
         this.items = data;
+        this.itemsD = data["taskDifficulty"];
       })
     })
   }

@@ -60,8 +60,12 @@
       
         <ion-item-sliding *ngFor="let item of items" >
       
-          <ion-item >
+          <ion-item color="warning" [routerLink]="['/details', item.payload.doc.id]" >
+            <ion-label >
               {{item.payload.doc.data().title}}
+            </ion-label>
+            <ion-button fill="clear" slot="end">Details</ion-button>
+
           </ion-item>
       
           <ion-item-options >

@@ -46,8 +46,7 @@ export class DetailsPage implements OnInit {
       title: new FormControl(this.item.title, Validators.required),
       description: new FormControl(this.item.description, Validators.required),
       taskType: new FormControl(this.item.taskType, Validators.required),
-      startTime: new FormControl(this.item.startTime, Validators.required),
-      endTime: new FormControl(this.item.endTime, Validators.required)
+      taskDifficulty : new FormControl(this.item.taskDifficulty, Validators.required)
     });
   }
 
@@ -56,9 +55,9 @@ export class DetailsPage implements OnInit {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
-      startTime: value.startTime,
-      endTime: value.endTime,
-      image: this.image
+      image: this.image,
+      taskDifficulty : value.taskDifficulty
+
     }
     this.firebaseService.updateTask(this.item.id,data)
     .then(

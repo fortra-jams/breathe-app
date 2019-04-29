@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
@@ -23,11 +24,11 @@ export class FirebaseService {
     return this.afs.collection('people').doc(currentUser.uid);
   }
 
-  /*getOneTask(){
-    this.afAuth.user.subscribe(currentUser => {
+ /* getOneTask(){
+     this.afAuth.user.subscribe(currentUser => {
       if(currentUser){
-        var docRef = this.afs.collection('people').doc(currentUser.uid).collection('tasks');
-        docRef.get().then(function(doc) {
+        var docRef = this.snapshotChangesSubscription = this.afs.collection('people').doc(currentUser.uid).collection('tasks');
+        docRef.get().toPromise().then(function(doc) {
           if (doc.exists) {
               console.log("Document data:", doc.data());
           } else {
@@ -40,6 +41,8 @@ export class FirebaseService {
       }
     })
   }*/
+  
+
   getTasks(){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
