@@ -38,26 +38,37 @@
       </ion-item-group>
   </ion-list>
 </div>
-</ion-content>-->
-<ion-content padding>
-    <ion-list>
-        <ion-list-header color="warning">
-            Not completed
-        </ion-list-header>
+</ion-content>
+     
       <ion-reorder-group (ionItemReorder)="reorderItems($event)" disabled="false">
+          <ion-list-header color="warning">
+              Not completed
+          </ion-list-header>
         <ion-item *ngFor="let item of items">
             <ion-reorder>
-              
                 <ion-label >
                     {{item.payload.doc.data().title}}
                 </ion-label>
             </ion-reorder>
-            <ion-list-header color="warning">
-              Not completed
-          </ion-list-header>
+            
         </ion-item>
 
         
-      </ion-reorder-group>
-    </ion-list>
-</ion-content>
+      </ion-reorder-group>-->
+      <ion-content *ngIf="items" class="list-mini-content" padding>
+        <ion-list>
+      
+        <ion-item-sliding *ngFor="let item of items" >
+      
+          <ion-item >
+              {{item.payload.doc.data().title}}
+          </ion-item>
+      
+          <ion-item-options>
+              <ion-button (click)="done(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="success">Done</ion-button>
+              <ion-button (click)="notDone(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="danger">Not Done</ion-button>
+          </ion-item-options>
+        </ion-item-sliding>
+      
+        </ion-list>
+      </ion-content>
