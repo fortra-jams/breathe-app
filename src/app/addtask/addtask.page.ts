@@ -42,13 +42,16 @@ export class AddtaskPage implements OnInit {
 
 
   onSubmit(value){
+    let date = new Date()
+    console.log("Current Date ",date) 
     let data = {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
       image: this.image,
       statusType: "notDone",
-      taskDifficulty : value.taskDifficulty
+      taskDifficulty : value.taskDifficulty,
+      date: date
     }
 
     this.firebaseService.addTask(data)
