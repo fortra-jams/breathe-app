@@ -49,7 +49,8 @@ export class AddtaskPage implements OnInit {
       description: value.description,
       startTime: value.startTime,
       endTime: value.endTime,
-      image: this.image
+      image: this.image,
+      statusType: "notDone"
     }
 
     this.firebaseService.addTask(data)

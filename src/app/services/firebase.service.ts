@@ -85,7 +85,8 @@ export class FirebaseService {
         description: value.description,
         startTime: value.startTime,
         endTime: value.endTime,
-        image: value.image
+        image: value.image,
+        taskStatus: "notDone"
       })
       .then(
         res => resolve(res),

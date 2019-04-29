@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+//import { reorderArray } from 'ionic-angular';
+
 
 @Component({
   selector: 'app-alltask',
@@ -9,11 +11,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AlltaskPage implements OnInit {
 
-  items: Array<any>;
+  items = [];
 
   constructor(public loadingCtrl: LoadingController,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+        for(let x = 0; x<5; x++){
+          this.items.push(x);
+        }
+
+     }
 
   ngOnInit() {
     if (this.route && this.route.data) {
@@ -21,6 +28,12 @@ export class AlltaskPage implements OnInit {
     }
     
   }
+
+  reorderItems(ev){
+    const itemMove = this.items.splice(ev.detail.from, 1)[0];
+    this.items.splice(ev.detail.to, 0, itemMove);
+    ev.detail.complete();
+    }
 
   async getData(){
     const loading = await this.loadingCtrl.create({
