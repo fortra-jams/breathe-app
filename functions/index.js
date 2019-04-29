@@ -16,6 +16,8 @@ exports.modifyTask = functions.firestore
         var db = admin.firestore();//assign firestore
         let count = 0;
 
+        console.log(firebase.firestore.Timestamp.fromDate(new Date()))
+
         //count the keys of document on collection tasks
         db.collection('people').doc(userID).collection('tasks').stream()
             .on('data', (snap) => {

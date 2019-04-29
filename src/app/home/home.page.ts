@@ -18,7 +18,11 @@ export class HomePage implements OnInit{
 
   userEmail: string;
   public totalTask: Observable<any>;
-  ttlTask: number;
+  public ttlTask: number;
+  // Doughnut
+  public doughnutChartLabels:string[] = ['Exercise', 'Task', 'Total Task'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
 
   constructor(private menu: MenuController,
     public loadingCtrl: LoadingController,
@@ -28,6 +32,14 @@ export class HomePage implements OnInit{
     private route: ActivatedRoute) { }
 
   ngOnInit(){
+    this.doughnutChartData = [4,12,6];
+    this.barChartData = [
+      {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+      {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    ];
+    this.doughnutChartLabels = ['Exercise', 'Task', 'Total Task'];
+    this.barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+
     this.getData();
     if(this.authService.userDetails){
       this.userEmail = this.authService.userDetails().email;
@@ -36,6 +48,7 @@ export class HomePage implements OnInit{
     this.totalTask = this.firebaseService.getTaskTotal().valueChanges();
     this.totalTask.subscribe(val =>{
       this.ttlTask = val['totalTask'];
+      this.doughnutChartData[2] = this.ttlTask;
       console.log(val['totalTask']);
       console.log(this.ttlTask);
       console.log(JSON.stringify(val));
@@ -82,18 +95,15 @@ export class HomePage implements OnInit{
       console.log(error);
     })
   }
-// Doughnut
-public doughnutChartLabels:string[] = ['Exercise', 'Task', 'Stuff'];
-public doughnutChartData:number[] = [350, 450, 100];
-public doughnutChartType:string = 'doughnut';
 
-// events
-public chartClicked(e:any):void {
-  console.log(e);
-}
 
-public chartHovered(e:any):void {
-  console.log(e);
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
   };
   public barChartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType:string = 'bar';
