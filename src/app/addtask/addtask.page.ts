@@ -34,10 +34,9 @@ export class AddtaskPage implements OnInit {
     this.image = "../../assets/default_image.png";
     this.validations_form = this.formBuilder.group({
       title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       taskType: new FormControl('', Validators.required),
-      startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required)
+      taskDifficulty: new FormControl('', Validators.required)
     });
   }
 
@@ -47,10 +46,9 @@ export class AddtaskPage implements OnInit {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
-      startTime: value.startTime,
-      endTime: value.endTime,
       image: this.image,
-      statusType: "notDone"
+      statusType: "notDone",
+      taskDifficulty : value.taskDifficulty
     }
 
     this.firebaseService.addTask(data)
@@ -60,7 +58,6 @@ export class AddtaskPage implements OnInit {
       }
     )
   }
-
 
   openImagePicker(){
     this.imagePicker.hasReadPermission()

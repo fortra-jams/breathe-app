@@ -23,6 +23,23 @@ export class FirebaseService {
     return this.afs.collection('people').doc(currentUser.uid);
   }
 
+  /*getOneTask(){
+    this.afAuth.user.subscribe(currentUser => {
+      if(currentUser){
+        var docRef = this.afs.collection('people').doc(currentUser.uid).collection('tasks');
+        docRef.get().then(function(doc) {
+          if (doc.exists) {
+              console.log("Document data:", doc.data());
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+      }
+    })
+  }*/
   getTasks(){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
@@ -99,10 +116,9 @@ export class FirebaseService {
         title: value.title,
         taskType: value.taskType,
         description: value.description,
-        startTime: value.startTime,
-        endTime: value.endTime,
         image: value.image,
-        taskStatus: "notDone"
+        taskStatus: "notDone",
+        taskDifficulty : value.taskDifficulty
       })
       .then(
         res => resolve(res),
