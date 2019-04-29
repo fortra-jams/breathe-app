@@ -1,3 +1,4 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
 import { MenuController,LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs';
 export class HomePage implements OnInit{
 
   
-  items: Array<any>;
+  items= [];
   
 
   userEmail: string;
@@ -23,6 +24,7 @@ export class HomePage implements OnInit{
   constructor(private menu: MenuController,
     public loadingCtrl: LoadingController,
     private firebaseService: FirebaseService,
+    private afs : AngularFirestore,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -70,6 +72,7 @@ export class HomePage implements OnInit{
     this.menu.open('end');
   }
 
+  
   
   logout(){
     this.menu.close('end');

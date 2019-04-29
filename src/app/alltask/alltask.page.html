@@ -64,9 +64,11 @@
               {{item.payload.doc.data().title}}
           </ion-item>
       
-          <ion-item-options>
-              <ion-button (click)="done(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="success">Done</ion-button>
-              <ion-button (click)="notDone(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="danger">Not Done</ion-button>
+          <ion-item-options >
+              <ion-button (click)="done(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="light" ><ion-icon src="assets/check_big.svg"></ion-icon>
+              </ion-button>
+              <ion-button (click)="notDone(item.payload.doc.id,item.payload.doc.data().taskStatus)" color="light" ><ion-icon src="assets/delete.svg"></ion-icon>
+              </ion-button>
           </ion-item-options>
         </ion-item-sliding>
       
