@@ -118,7 +118,8 @@ export class FirebaseService {
         description: value.description,
         image: value.image,
         taskStatus: "notDone",
-        taskDifficulty : value.taskDifficulty
+        taskDifficulty : value.taskDifficulty,
+        date: value.date
       })
       .then(
         res => resolve(res),

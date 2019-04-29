@@ -56,9 +56,10 @@ export class DetailsPage implements OnInit {
       title: value.title,
       taskType: value.taskType,
       description: value.description,
-      startTime: value.startTime,
-      endTime: value.endTime,
-      image: this.image
+      image: this.image,
+      statusType: this.item.statusType,
+      taskDifficulty : value.taskDifficulty,
+      date: this.item.date
     }
     this.firebaseService.updateTask(this.item.id,data)
     .then(
